@@ -3,7 +3,7 @@ let PRODUCTS = [];
 const cart = new Map();
 let activeChip = ''; // frutas | verduras | salsas | otros | ''
 
-// ---- Toast helper (top-right) ----
+// Toast helper
 function toast({title='Listo', desc='', timeout=2200}={}){
   const host = document.getElementById('toaster');
   if(!host) return;
@@ -13,9 +13,8 @@ function toast({title='Listo', desc='', timeout=2200}={}){
     <div><div class="title">${title}</div><div class="desc">${desc}</div></div>
     <button aria-label="Cerrar" onclick="this.parentElement.remove()">×</button>`;
   host.appendChild(el);
-  setTimeout(()=>{ el.remove(); }, timeout);
+  setTimeout(()=>{ el.style.opacity = 0; setTimeout(()=>el.remove(), 260); }, timeout);
 }
-// ----------------------------------
 
 function fmt(n){ return new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n||0) }
 function num(x){ const n = parseFloat(x); return isNaN(n)?0:n }
@@ -113,18 +112,15 @@ function addToQuote(code){
   const ptype = document.getElementById('ptype-'+code)?.value || 'venta';
   const unit = ptype==='mayoreo' && p.wholesale>0 ? p.wholesale : (p.price||0);
   const prev = cart.get(code) || {code:p.code,name:p.name,price:unit,ptype,qty:0};
-  prev.ptype = ptype; 
-  prev.price = unit; 
-  prev.qty += qty;
+  prev.ptype = ptype; prev.price = unit; prev.qty += qty;
   cart.set(code, prev);
   renderQuote();
   toast({title:'Producto agregado', desc:`${qty} × ${p.name}`});
 }
 
-function removeFromQuote(code){ 
+function removeFromQuote(code){
   const item = cart.get(code);
-  cart.delete(code); 
-  renderQuote(); 
+  cart.delete(code); renderQuote();
   if(item){ toast({title:'Producto eliminado', desc:item.name}); }
 }
 
@@ -160,7 +156,7 @@ function exportPDF(){
   const doc = new jsPDF({unit:'pt', format:'a4'});
   const logo = document.getElementById('logo');
   if(logo){ doc.addImage(logo, 'PNG', 40, 32, 64, 64); }
-  doc.setFontSize(16); doc.text('Cotización - Frutilandia Cruz', 120, 60);
+  doc.setFontSize(16); doc.text('Cotización - Raíz y Rama', 120, 60);
   const fecha = new Date().toLocaleDateString('es-MX');
   doc.setFontSize(11); doc.text(`Fecha: ${fecha}`, 120, 82);
 
@@ -169,7 +165,7 @@ function exportPDF(){
   doc.text('Código', 40, y); doc.text('Descripción', 100, y);
   doc.text('Precio', 360, y); doc.text('Tipo', 440, y);
   doc.text('Cant.', 500, y); doc.text('Importe', 560, y);
-  y+=8; doc.line(40,y,540,y); y+=12;
+  y+=8; doc.line(40,y,600,y); y+=12;
 
   let subtotal = 0;
   [...cart.values()].forEach(it=>{
@@ -188,13 +184,13 @@ function exportPDF(){
   const tax = document.getElementById('iva').checked ? afterDiscount * 0.16 : 0;
   const total = afterDiscount + tax;
   y+=10; doc.line(360,y,600,y); y+=16;
-  [['Subtotal:',fmt(subtotal)],['Descuento:',fmt(discount)],['IVA:',fmt(tax)],['Total:',fmt(total)]].forEach(([k,v])=>{ doc.text(k,380,y); doc.text(v,500,y,{align:'right'}); y+=16; });
-  doc.save(`Frutilandia-Cotizacion-${Date.now()}.pdf`);
+  [['Subtotal:',fmt(subtotal)],['Descuento:',fmt(discount)],['IVA:',fmt(tax)],['Total:',fmt(total)]].forEach(([k,v])=>{ doc.text(k,380,y); doc.text(v,540,y,{align:'right'}); y+=16; });
+  doc.save(`RaizRama-Cotizacion-${Date.now()}.pdf`);
 }
 
 window.addEventListener('DOMContentLoaded', ()=>{
-  toast({title:'Notificaciones activas', desc:'Se mostrarán al agregar/eliminar.'});
   loadProducts();
+  toast({title:'Notificaciones activas', desc:'Se mostrarán al agregar/eliminar.'});
   document.getElementById('search').addEventListener('input', renderProducts);
   document.getElementById('dept').addEventListener('change', renderProducts);
   document.getElementById('showCost').addEventListener('change', renderProducts);
