@@ -1,0 +1,80 @@
+
+:root{--accent:#2b8a3e;--chip:#f3f8f4;--chipb:#d9eadb}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:0;color:#222;background:#ffffff}
+/* Header pro */
+header{
+  position:sticky;top:0;background:#fff;border-bottom:1px solid #f0f0f0;
+  display:flex;align-items:center;gap:14px;padding:14px 20px;z-index:10
+}
+header .logo-wrap{
+  width:72px;height:72px;display:grid;place-items:center;border-radius:999px;
+  background:#fff;border:1px solid #eee;box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+header img{width:58px;height:58px;object-fit:contain;filter: none}
+header .brand h1{font-size:28px;margin:0;line-height:1.05;letter-spacing:.2px}
+header .brand small{color:#6a6a6a;font-size:13px}
+.container{max-width:1200px;margin:18px auto;padding:0 16px}
+.controls{display:grid;grid-template-columns:1fr 220px 160px 160px;gap:10px;margin:14px 0}
+input,select,button{padding:10px;border:1px solid #ddd;border-radius:10px;font-size:14px}
+button{cursor:pointer}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent);border-radius:12px;padding:10px 14px}
+.card{border:1px solid #eee;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.02)}
+small.muted{color:#777}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+.badge{background:#eef8ef;border:1px solid #d7f0da;color:#2b8a3e;border-radius:999px;padding:4px 8px;font-size:12px}
+.summary{margin-top:10px;border-top:1px dashed #ddd;padding-top:10px;display:grid;gap:8px;max-width:480px}
+.summary div{display:flex;justify-content:space-between;align-items:center}
+.right{text-align:right}
+.sticky-actions{display:flex;gap:8px;align-items:end}
+.toggle{display:flex;gap:8px;align-items:center}
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 2px}
+.chip{background:var(--chip);border:1px solid var(--chipb);padding:6px 10px;border-radius:999px;font-size:13px;cursor:pointer;user-select:none}
+.chip.active{background:#d3f2d9;border-color:#9fd5a5}
+@media(max-width:880px){
+  header .logo-wrap{width:64px;height:64px}
+  header img{width:52px;height:52px}
+  header .brand h1{font-size:22px}
+  .controls{grid-template-columns:1fr 1fr}
+  .sticky-actions{margin-top:8px}
+}
+
+
+/* Toast notifications */
+#toaster{
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  display: grid;
+  gap: 10px;
+  z-index: 9999;
+}
+.toast{
+  background: #ffffff;
+  border: 1px solid #d9eadb;
+  box-shadow: 0 6px 24px rgba(0,0,0,.12);
+  border-left: 6px solid #2b8a3e;
+  padding: 12px 14px;
+  border-radius: 12px;
+  min-width: 260px;
+  max-width: 360px;
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  animation: toast-in .24s ease-out;
+}
+.toast .icon{font-size:18px;line-height:0}
+.toast .title{font-weight:600}
+.toast .desc{font-size:13px;color:#666}
+.toast button{
+  background: transparent;border:none;cursor:pointer;font-size:16px;color:#666
+}
+@keyframes toast-in{
+  from{opacity:0; transform: translateY(-8px);} 
+  to{opacity:1; transform: translateY(0);}
+}
+
+.toast{transition: opacity .25s ease}

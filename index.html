@@ -1,0 +1,92 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cotizador | Frutilandia Cruz</title>
+<link rel="stylesheet" href="./styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="logo-wrap"><img src="./assets/logo.png" id="logo" alt="Frutilandia Cruz" /></div>
+  <div class="brand">
+    <h1>Frutilandia Cruz · Cotizador</h1>
+    <small>Fresco & Local</small>
+  </div>
+</header>
+
+<div class="container">
+  <div class="card">
+    <div class="controls">
+      <div>
+        <label>Buscar</label>
+        <input id="search" placeholder="Ej. manzana, salsa, 70g o código" />
+      </div>
+      <div>
+        <label>Departamento</label>
+        <select id="dept"><option value="">Todos</option></select>
+      </div>
+      <div class="toggle">
+        <label><input type="checkbox" id="showCost"> Mostrar costo (interno)</label>
+      </div>
+      <div class="sticky-actions">
+        <button id="export" class="primary">Exportar PDF</button>
+      </div>
+    </div>
+
+    <!-- quick category chips -->
+    <div class="chips" id="chips">
+      <!-- chips render here -->
+    </div>
+
+    <table class="table" id="prod-table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th>Tipo venta</th>
+          <th class="right">P. Venta</th>
+          <th class="right">P. Mayoreo</th>
+          <th class="right cost-col" style="display:none">Costo</th>
+          <th class="right">Exist.</th>
+          <th>Agregar</th>
+        </tr>
+      </thead>
+      <tbody id="prod-body"></tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <h3>Tu cotización</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Producto</th>
+          <th class="right">Precio</th>
+          <th>Tipo</th>
+          <th class="right">Cant.</th>
+          <th class="right">Importe</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="quote-body"></tbody>
+    </table>
+
+    <div class="summary">
+      <div><span>Subtotal</span><strong id="sum-sub">$0.00</strong></div>
+      <div><span>Descuento</span><input id="discount" type="number" min="0" step="0.01" value="0" style="width:120px;text-align:right"></div>
+      <div><label><input type="checkbox" id="iva"> Aplicar IVA (16%)</label><strong id="sum-tax">$0.00</strong></div>
+      <div style="border-top:1px solid #eee;padding-top:8px"><span>Total</span><strong id="sum-total">$0.00</strong></div>
+    </div>
+  </div>
+</div>
+
+  <!-- Toast notifications -->
+  <div id="toaster" aria-live="polite" aria-atomic="true"></div>
+
+<script src="./app.js"></script>
+</body>
+</html>
